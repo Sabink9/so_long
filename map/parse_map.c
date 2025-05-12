@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:43:09 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/01 15:51:42 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:36:54 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	check_elem(t_map *map, int *has_p, int *has_e, int *has_c)
 		}
 		y++;
 	}
+	map->collectibles = (*has_c);
 }
 
 int	check_non_elements(t_map *map)
@@ -95,7 +96,7 @@ int	check_non_elements(t_map *map)
 		while (x < map->width)
 		{
 			c = map->grid[y][x];
-			if (c != '0' && c != '1' && c != 'P' && c != 'E' && c != 'C')
+			if (c != '0' && c != '1' && c != 'P' && c != 'E' && c != 'C' && c != 'N')
 				return (0);
 			x++;
 		}
@@ -169,21 +170,21 @@ int	check_walls(t_map *map)
 	return (1);
 }
 
-void	parse_map(t_map *map)
+void	parse_map(t_map *map, char **argv)
 {
 	int	fd;
 
-	fd = open("map.ber", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 		exit(printf("Error\nCan't open map\n"));
 	map->height = count_lines(fd);
 	close(fd);
-	fd = open("map.ber", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	map->width = count_rows(fd);
 	close(fd);
 	if (map->width == -1)
 		exit(printf("Error\nMap is not rectangular\n"));
-	fd = open("map.ber", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	fill_grid(map, fd);
 	close(fd);
 	if (!validate_map(map))
@@ -205,14 +206,22 @@ void	free_map(t_map *map)
 	}
 }
 
-int	main(void)
+
+int	main(int argc, char **argv)
 {
 	t_map	map;
+	t_pathcheck check;
 
-	parse_map(&map);
-	printf("Map loaded successfully!\n");
-	printf("Map size: %dx%d\n", map.width, map.height);
-	printf("Player position: (%d, %d)\n", map.player_x, map.player_y);
-	free_map(&map);
+	if (argc == 2)
+	{
+		parse_map(&map, argv);
+		printf("Map loaded successfully!\n");
+		printf("Map size: %dx%d\n", map.width, map.height);
+		printf("Player position: (%d, %d)\n", map.player_x, map.player_y);
+		is_map_playable(&map, &check);
+		free_map(&map);
+	}
+	else
+		printf("Map not found");
 	return (0);
 }
