@@ -10,7 +10,7 @@ int	handle_key(int key, void *mlx)
 {
 	if (key == XK_Escape)
 	{
-		mlx_destroy_window(mlx, mlx);
+		mlx_destroy_window(mlx, mlx
 		exit(0);
 	}
 	return (0);
