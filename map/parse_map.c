@@ -6,12 +6,16 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:43:09 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/12 16:36:54 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:28:03 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 #include <stdio.h>
+#include <mlx.h>
+#include <stdlib.h>
+#include <X11/keysym.h>   // pour XK_Escape
+#include <X11/X.h> 
 
 int	count_lines(int fd)
 {
@@ -205,21 +209,52 @@ void	free_map(t_map *map)
 		free(map->grid);
 	}
 }
+int	handle_key(int key, void *mlx)
+{
+	if (key == XK_Escape)
+	{
+		mlx_destroy_window(mlx, mlx);
+		exit(0);
+	}
+	return (0);
+}
 
+int	handle_close(void *mlx)
+{
+	mlx_destroy_window(mlx, mlx);
+	exit(0);
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
 	t_map	map;
 	t_pathcheck check;
+	char	**mapc;
+	void	*mlx;
+	void	*win;
+	t_imgs	imgs;
 
 	if (argc == 2)
 	{
 		parse_map(&map, argv);
+		mapc =copy_map(&map);
 		printf("Map loaded successfully!\n");
 		printf("Map size: %dx%d\n", map.width, map.height);
 		printf("Player position: (%d, %d)\n", map.player_x, map.player_y);
 		is_map_playable(&map, &check);
-		free_map(&map);
+		mlx = mlx_init();
+		if (!mlx)
+			return (1);
+		win = mlx_new_window(mlx, map.width * 64, map.height * 64, "BABINSKI"); // 6 colonnes * 64 = 384, 5 lignes * 64 = 320
+		if (!win)
+			return (1);
+		fill_sprites_map(mapc, mlx, win, &imgs);
+		mlx_key_hook(win, handle_key, mlx);
+		mlx_hook(win, 17, 0, handle_close, mlx);
+		mlx_loop(mlx);
+		return (0);
+		//free_map(&map);
 	}
 	else
 		printf("Map not found");

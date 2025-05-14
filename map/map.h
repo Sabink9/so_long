@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:37:37 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/12 15:34:10 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:07:27 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+#include <mlx.h>
 #include "../get_next_line/get_next_line.h"
 
 typedef struct s_map
@@ -35,7 +36,18 @@ typedef struct s_pathcheck
 	int	enemy_found;
 }	t_pathcheck;
 
+typedef struct s_imgs {
+	void	*wall;
+	void	*floor;
+	void	*player;
+	void	*collectible;
+	void	*exit;
+	void	*ennemy;
+}	t_imgs;
+
+
 //map parse
+void	fill_sprites_map(char **map, void *mlx, void *win, t_imgs *imgs);
 
 
 //map acces

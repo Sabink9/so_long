@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -I./map -I./get_next_line
+CFLAGS = -Wall -Werror -Wextra -I./minilibx-linux -L./minilibx-linux -lmlx -lX11 -lXext -lm -I./map -I./get_next_line
 RM = rm -rf
 
 SRCS =	map/map_acces.c \

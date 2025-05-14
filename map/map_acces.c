@@ -1,5 +1,6 @@
 #include "map.h"
 #include <stdio.h>
+#include <mlx.h>
 
 char	**copy_map(t_map *map)
 {
