@@ -6,13 +6,13 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:32:30 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/15 22:41:05 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:39:18 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	right(int keycode, t_data *data, int x, int y)
+int	right(int keycode, t_data *data, int x, int y)
 {
 	if (keycode == 'd')
 	{
@@ -28,10 +28,12 @@ void	right(int keycode, t_data *data, int x, int y)
 			mlx_put_image_to_window(data->mlx, data->win,
 				data->imgs->player_right, (x + 1) * 64, y * 64);
 			handle_cases(data, x + 1, y);
+			return (1);
 		}
 	}
+	return (0);
 }
-void	left(int keycode, t_data *data, int x, int y)
+int	left(int keycode, t_data *data, int x, int y)
 {
 	if (keycode == 'a')
 	{
@@ -47,11 +49,13 @@ void	left(int keycode, t_data *data, int x, int y)
 			mlx_put_image_to_window(data->mlx, data->win,
 				data->imgs->player_left, (x - 1) * 64, y * 64);
 			handle_cases(data, x - 1, y);
+			return (1);
 		}
 	}
+	return (0);
 }
 
-void	up(int keycode, t_data *data, int x, int y)
+int	up(int keycode, t_data *data, int x, int y)
 {
 	if (keycode == 'w')
 	{
@@ -67,10 +71,12 @@ void	up(int keycode, t_data *data, int x, int y)
 			mlx_put_image_to_window(data->mlx, data->win, data->imgs->player_up,
 					x * 64, (y - 1) * 64);
 			handle_cases(data, x, y - 1);
+			return (1);
 		}
 	}
+	return (0);
 }
-void	down(int keycode, t_data *data, int x, int y)
+int	down(int keycode, t_data *data, int x, int y)
 {
 	if (keycode == 's')
 	{
@@ -86,30 +92,32 @@ void	down(int keycode, t_data *data, int x, int y)
 			mlx_put_image_to_window(data->mlx, data->win,
 					data->imgs->player_down, x * 64, (y + 1) * 64);
 			handle_cases(data, x, y + 1);
+			return (1);
 		}
 	}
+	return (0);
 }
 
 int	launch_game(char **mapc, t_imgs *imgs, t_map *map)
 {
-	void	*mlx;
-	void	*win;
 	t_data	data;
 
-	mlx = mlx_init();
-	if (!mlx)
+	data.mlx = mlx_init();
+	if (!data.mlx)
 		return (1);
-	win = mlx_new_window(mlx, map->width * 64, map->height * 64, "BABINSKI");
-	if (!win)
+	data.win = mlx_new_window(data.mlx, map->width * 64, map->height * 64, "BABINSKI");
+	if (!data.win)
+	{
+		free(data.mlx);
 		return (1);
-	fill_sprites_map(mapc, mlx, win, imgs);
+	}
 	data.map = map;
 	data.imgs = imgs;
-	data.mlx = mlx;
-	data.win = win;
 	data.mapc = mapc;
-	mlx_key_hook(win, handle_key, &data);
-	mlx_hook(win, 17, 0, handle_close, NULL);
-	mlx_loop(mlx);
+	data.moves = 0;
+	fill_sprites_map(mapc, data.mlx, data.win, imgs);
+	mlx_key_hook(data.win, handle_key, &data);
+	mlx_hook(data.win, 17, 0, handle_close, &data);
+	mlx_loop(data.mlx);
 	return (0);
 }

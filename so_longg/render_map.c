@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:36:13 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/15 22:36:57 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:06:30 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ int	is_map_playable(t_map *map, t_pathcheck *check)
 	dfs(copy, map->player_x, map->player_y, check);
 	if (!check->exit_found)
 	{
-		ft_printf("La sortie n'est pas atteignable.\n");
+		ft_printf("Error\nLa sortie n'est pas atteignable.\n");
 		free_copy(copy);
 		return (0);
 	}
 	else if (check->collect_found != map->collectibles)
 	{
-		ft_printf("Il reste des collectibles inaccessibles.\n");
+		ft_printf("Error\nIl reste des collectibles inaccessibles.\n");
 		free_copy(copy);
 		return (0);
 	}

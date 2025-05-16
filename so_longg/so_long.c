@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 15:43:09 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/15 22:37:01 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:19:17 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	fill_grid(t_map *map, int fd)
 	int		y;
 
 	y = 0;
-	map->grid = malloc(sizeof(char *) * (1024));
+	map->grid = malloc(sizeof(char *) * (map->height + 1));
 	if (!map->grid)
 		exit(1);
 	line = get_next_line(fd);
