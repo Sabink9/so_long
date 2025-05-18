@@ -1,14 +1,15 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I./so_longg -I./get_next_line -I./window -I./printf -I./minilibx-linux
+CFLAGS = -Wall -Wextra -Werror -I./so_longg -I./get_next_line -I./printf -I./minilibx-linux
 LDFLAGS = -L./minilibx-linux -lmlx -lX11 -lXext -lm
 RM = rm -rf
 
 SRCS =	so_longg/parse_map.c \
 	so_longg/so_long.c \
 	so_longg/render_map.c \
-	so_longg/free_game.c \
+	so_longg/utils.c \
 	so_longg/launch_game.c \
 	so_longg/handles.c \
+	so_longg/free_fun.c \
 	get_next_line/get_next_line.c \
 	get_next_line/get_next_line_utils.c \
 	printf/ft_len_tab.c \

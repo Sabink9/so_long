@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:37:37 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/16 17:41:49 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:57:26 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ typedef struct s_imgs
 {
 	void	*wall;
 	void	*floor;
-	void	*player_up;
-	void	*player_down;
-	void	*player_right;
-	void	*player_left;
-	void	*collectible;
+	void	*p_up;
+	void	*p_down;
+	void	*p_right;
+	void	*p_left;
+	void	*colle;
 	void	*open_exit;
-	void	*closed_exit;
+	void	*c_exit;
 	void	*ennemy;
 }			t_imgs;
 
@@ -61,7 +61,7 @@ typedef struct s_data
 	void	*mlx;
 	void	*win;
 	char	**mapc;
-	int	moves;
+	int		moves;
 }			t_data;
 
 //map parse
@@ -70,10 +70,17 @@ int			count_lines(int fd);
 int			count_rows(int fd);
 void		fill_sprites_map(char **map, void *mlx, void *win, t_imgs *imgs);
 
-// free game
+// frees
 void		free_map(t_map *map);
 void		free_copy(char **copy);
-char	*ft_itoa(int n);
+void		free_images(t_data *data);
+void		free_and_exit(t_data *data, char *msg, int code);
+void		free_remaining_lines(int fd);
+
+//utils
+char		*ft_itoa(int n);
+void		check_exit(t_map *map, int *has_e, int x, int y);
+void		return_sprite_error(t_imgs *imgs, void *mlx);
 
 //map acces
 int			is_map_playable(t_map *map, t_pathcheck *check);
@@ -81,12 +88,12 @@ char		**copy_map(t_map *map);
 
 //window/inputs
 int			launch_game(char **mapc, t_imgs *imgs, t_map *map);
-void	handle_cases(t_data *data, int x, int y);
-int	handle_key(int keycode, void *param);
-int	handle_close(void *mlx);
-int	right(int keycode, t_data *data, int x, int y);
-int	left(int keycode, t_data *data, int x, int y);
-int	up(int keycode, t_data *data, int x, int y);
-int	down(int keycode, t_data *data, int x, int y);
+void		handle_cases(t_data *data, int x, int y);
+int			handle_key(int keycode, void *param);
+int			handle_close(void *mlx);
+int			right(int keycode, t_data *data, int x, int y);
+int			left(int keycode, t_data *data, int x, int y);
+int			up(int keycode, t_data *data, int x, int y);
+int			down(int keycode, t_data *data, int x, int y);
 
 #endif

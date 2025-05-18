@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:00:23 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/15 22:37:06 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:58:30 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	count_rows(int fd)
 		else if (current_width != first_line_width)
 		{
 			free(line);
+			free_remaining_lines(fd);
 			return (-1);
 		}
 		free(line);
@@ -72,11 +73,7 @@ void	check_elem(t_map *map, int *has_p, int *has_e, int *has_c)
 				(*has_p)++;
 			}
 			else if (map->grid[y][x] == 'E')
-			{
-				(*has_e)++;
-				map->exit_x = x;
-				map->exit_y = y;
-			}
+				check_exit(map, has_e, x, y);
 			else if (map->grid[y][x] == 'C')
 				(*has_c)++;
 			x++;

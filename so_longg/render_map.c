@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:36:13 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/16 18:06:30 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:22:18 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,28 +98,25 @@ void	define_sprites(void *mlx, t_imgs *imgs)
 
 	imgs->wall = mlx_xpm_file_to_image(mlx, "sprites/sprite_murs.xpm", &w, &h);
 	imgs->floor = mlx_xpm_file_to_image(mlx, "sprites/sprite_sol.xpm", &w, &h);
-	imgs->collectible = mlx_xpm_file_to_image(mlx, "sprites/sprite_ballon.xpm",
+	imgs->colle = mlx_xpm_file_to_image(mlx, "sprites/sprite_ballon.xpm", &w,
+			&h);
+	imgs->c_exit = mlx_xpm_file_to_image(mlx, "sprites/sprite_closed_door.xpm",
 			&w, &h);
-	imgs->closed_exit = mlx_xpm_file_to_image(mlx,
-			"sprites/sprite_closed_door.xpm", &w, &h);
 	imgs->open_exit = mlx_xpm_file_to_image(mlx, "sprites/sprite_open_door.xpm",
 			&w, &h);
 	imgs->ennemy = mlx_xpm_file_to_image(mlx, "sprites/sprite_secu.xpm", &w,
 			&h);
-	imgs->player_up = mlx_xpm_file_to_image(mlx, "sprites/sprite_dos.xpm", &w,
+	imgs->p_up = mlx_xpm_file_to_image(mlx, "sprites/sprite_dos.xpm", &w, &h);
+	imgs->p_down = mlx_xpm_file_to_image(mlx, "sprites/sprite_face.xpm", &w,
 			&h);
-	imgs->player_down = mlx_xpm_file_to_image(mlx, "sprites/sprite_face.xpm",
-			&w, &h);
-	imgs->player_right = mlx_xpm_file_to_image(mlx, "sprites/sprite_droite.xpm",
-			&w, &h);
-	imgs->player_left = mlx_xpm_file_to_image(mlx, "sprites/sprite_gauche.xpm",
-			&w, &h);
-	if (!imgs->wall || !imgs->floor || !imgs->collectible || !imgs->closed_exit
-		|| !imgs->ennemy || !imgs->player_up)
-	{
-		ft_printf("Erreur de chargement des images\n");
-		return ;
-	}
+	imgs->p_right = mlx_xpm_file_to_image(mlx, "sprites/sprite_droite.xpm", &w,
+			&h);
+	imgs->p_left = mlx_xpm_file_to_image(mlx, "sprites/sprite_gauche.xpm", &w,
+			&h);
+	if (!imgs->wall || !imgs->floor || !imgs->colle || !imgs->c_exit
+		|| !imgs->open_exit || !imgs->ennemy || !imgs->p_up || !imgs->p_down
+		|| !imgs->p_right || !imgs->p_left)
+		return_sprite_error(imgs, mlx);
 }
 
 void	fill_sprites_map(char **map, void *mlx, void *win, t_imgs *imgs)
@@ -138,14 +135,11 @@ void	fill_sprites_map(char **map, void *mlx, void *win, t_imgs *imgs)
 			if (map[y][x] == '1')
 				mlx_put_image_to_window(mlx, win, imgs->wall, x * 64, y * 64);
 			else if (map[y][x] == 'P')
-				mlx_put_image_to_window(mlx, win, imgs->player_down, x * 64, y
-					* 64);
+				mlx_put_image_to_window(mlx, win, imgs->p_down, x * 64, y * 64);
 			else if (map[y][x] == 'C')
-				mlx_put_image_to_window(mlx, win, imgs->collectible, x * 64, y
-					* 64);
+				mlx_put_image_to_window(mlx, win, imgs->colle, x * 64, y * 64);
 			else if (map[y][x] == 'E')
-				mlx_put_image_to_window(mlx, win, imgs->closed_exit, x * 64, y
-					* 64);
+				mlx_put_image_to_window(mlx, win, imgs->c_exit, x * 64, y * 64);
 			else if (map[y][x] == 'N')
 				mlx_put_image_to_window(mlx, win, imgs->ennemy, x * 64, y * 64);
 			x++;
