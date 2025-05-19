@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:32:30 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/18 16:26:18 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:24:23 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	launch_game(char **mapc, t_imgs *imgs, t_map *map)
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		return (1);
+	define_sprites(data.mlx, imgs, map, mapc);
 	data.win = mlx_new_window(data.mlx, map->width * 64, map->height * 64,
 			"BABINSKI");
 	if (!data.win)

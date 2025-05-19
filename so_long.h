@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:37:37 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/18 17:57:26 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:30:44 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ typedef struct s_data
 int			validate_map(t_map *map);
 int			count_lines(int fd);
 int			count_rows(int fd);
-void		fill_sprites_map(char **map, void *mlx, void *win, t_imgs *imgs);
+void		fill_sprites_map(char **mapc, void *mlx, void *win, t_imgs *imgs);
+void		define_sprites(void *mlx, t_imgs *imgs, t_map *map, char **mapc);
 
 // frees
 void		free_map(t_map *map);
@@ -80,7 +81,8 @@ void		free_remaining_lines(int fd);
 //utils
 char		*ft_itoa(int n);
 void		check_exit(t_map *map, int *has_e, int x, int y);
-void		return_sprite_error(t_imgs *imgs, void *mlx);
+void		return_sprite_error(t_imgs *imgs, void *mlx, t_map *map,
+				char **mapc);
 
 //map acces
 int			is_map_playable(t_map *map, t_pathcheck *check);

@@ -6,15 +6,15 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:23:34 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/18 16:41:40 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:15:55 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-void	return_sprite_error(t_imgs *imgs, void *mlx)
+static void	destroy_images(void *mlx, t_imgs *imgs)
 {
-	if (!imgs || !mlx)
+	if (!mlx || !imgs)
 		return ;
 	if (imgs->wall)
 		mlx_destroy_image(mlx, imgs->wall);
@@ -36,7 +36,20 @@ void	return_sprite_error(t_imgs *imgs, void *mlx)
 		mlx_destroy_image(mlx, imgs->p_right);
 	if (imgs->p_left)
 		mlx_destroy_image(mlx, imgs->p_left);
-	exit(ft_printf("Error\nErreur de chargement des images\n"));
+}
+
+void	return_sprite_error(t_imgs *imgs, void *mlx, t_map *map, char **mapc)
+{
+	ft_printf("Error\nErreur de chargement des images\n");
+	destroy_images(mlx, imgs);
+	free_map(map);
+	free_copy(mapc);
+	if (mlx)
+	{
+		mlx_destroy_display(mlx);
+		free(mlx);
+	}
+	exit(1);
 }
 
 void	handle_cases(t_data *data, int x, int y)

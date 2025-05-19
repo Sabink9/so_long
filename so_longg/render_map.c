@@ -6,7 +6,7 @@
 /*   By: saciurus <saciurus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:36:13 by saciurus          #+#    #+#             */
-/*   Updated: 2025/05/17 18:22:18 by saciurus         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:23:05 by saciurus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	is_map_playable(t_map *map, t_pathcheck *check)
 	}
 }
 
-void	define_sprites(void *mlx, t_imgs *imgs)
+void	define_sprites(void *mlx, t_imgs *imgs, t_map *map, char **mapc)
 {
 	int	w;
 	int	h;
@@ -116,31 +116,30 @@ void	define_sprites(void *mlx, t_imgs *imgs)
 	if (!imgs->wall || !imgs->floor || !imgs->colle || !imgs->c_exit
 		|| !imgs->open_exit || !imgs->ennemy || !imgs->p_up || !imgs->p_down
 		|| !imgs->p_right || !imgs->p_left)
-		return_sprite_error(imgs, mlx);
+		return_sprite_error(imgs, mlx, map, mapc);
 }
 
-void	fill_sprites_map(char **map, void *mlx, void *win, t_imgs *imgs)
+void	fill_sprites_map(char **mapc, void *mlx, void *win, t_imgs *imgs)
 {
 	int	x;
 	int	y;
 
-	define_sprites(mlx, imgs);
 	y = 0;
-	while (map[y])
+	while (mapc[y])
 	{
 		x = 0;
-		while (map[y][x])
+		while (mapc[y][x])
 		{
 			mlx_put_image_to_window(mlx, win, imgs->floor, x * 64, y * 64);
-			if (map[y][x] == '1')
+			if (mapc[y][x] == '1')
 				mlx_put_image_to_window(mlx, win, imgs->wall, x * 64, y * 64);
-			else if (map[y][x] == 'P')
+			else if (mapc[y][x] == 'P')
 				mlx_put_image_to_window(mlx, win, imgs->p_down, x * 64, y * 64);
-			else if (map[y][x] == 'C')
+			else if (mapc[y][x] == 'C')
 				mlx_put_image_to_window(mlx, win, imgs->colle, x * 64, y * 64);
-			else if (map[y][x] == 'E')
+			else if (mapc[y][x] == 'E')
 				mlx_put_image_to_window(mlx, win, imgs->c_exit, x * 64, y * 64);
-			else if (map[y][x] == 'N')
+			else if (mapc[y][x] == 'N')
 				mlx_put_image_to_window(mlx, win, imgs->ennemy, x * 64, y * 64);
 			x++;
 		}
